@@ -1,26 +1,617 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/*
+ * @Author: SessyoinKirin
+ * @Date: 2025-11-19 22:19:45
+ * @LastEditors: SessyoinKirin
+ * @LastEditTime: 2025-11-20 00:17:14
+ * @FilePath: \my-app\app\globals.css
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by SessyoinKirin, All Rights Reserved. 
+ */
+/* app/globals.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Welcome Page */
+.welcome-page {
+  background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.welcome-content h1.logo {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.welcome-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.primary-btn {
+  background-color: white;
+  color: #2e7d32;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px 0;
+  width: 200px;
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px 0;
+  width: 200px;
+  transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Register and Login Pages */
+.register-page, .login-page {
+  max-width: 500px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.register-page h1, .login-page h1 {
+  color: #2e7d32;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.login-link, .register-link {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-link span, .register-link span {
+  color: #2e7d32;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Dashboard */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  color: #2e7d32;
+  margin-bottom: 5px;
+}
+
+.dashboard-header h2 {
+  color: #555;
+  font-weight: normal;
+}
+
+.categories, .quotation {
+  margin-bottom: 30px;
+}
+
+.categories h3, .quotation h3 {
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+.category-grid, .quotation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.category-item, .quotation-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-item:hover, .quotation-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  padding: 15px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-item {
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  flex: 1;
+}
+
+.nav-item.active {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* Home Page */
+.home-header {
+  margin-bottom: 30px;
+}
+
+.user-info h2 {
+  color: #2e7d32;
+  margin-bottom: 5px;
+}
+
+.user-info p {
+  color: #777;
+}
+
+.waste-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 70px;
+}
+
+.waste-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.waste-item .number {
+  background-color: #2e7d32;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-weight: 600;
+}
+
+.waste-item .text {
+  flex: 1;
+}
+
+.waste-item .more {
+  color: #2e7d32;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Connections Page */
+.connections-page h1 {
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+.connections-list {
+  margin-bottom: 70px;
+}
+
+.connection-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.connection-info h3 {
+  color: #2e7d32;
+  margin-bottom: 5px;
+}
+
+.connection-info p {
+  color: #777;
+  font-style: italic;
+}
+
+.connection-time {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* Logistics Page */
+.logistics-page h1 {
+  color: #2e7d32;
+  margin-bottom: 30px;
+}
+
+.logistics-form {
+  max-width: 500px;
+}
+
+/* Profile Page */
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #2e7d32;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 auto 15px;
+}
+
+.profile-header h2 {
+  color: #2e7d32;
+  margin-bottom: 5px;
+}
+
+.profile-header p {
+  color: #777;
+}
+
+.profile-actions {
+  margin-bottom: 70px;
+}
+
+.action-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-item:hover {
+  background-color: #f0f0f0;
+}
+
+.primary-btn {
+  background-color: white;
+  color: #2e7d32;
+  border: 2px solid #2e7d32; /* Adicione esta linha */
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px auto;
+  width: 200px;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.primary-btn:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  padding: 15px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-item {
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  flex: 1;
+  color: #555; /* Cor normal */
+  transition: all 0.3s ease;
+}
+
+.nav-item.active {
+  color: #2e7d32; /* Cor quando ativo */
+  font-weight: 600;
+}
+
+/* Opcional: adicionar um indicador visual */
+.nav-item.active::after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  background-color: #2e7d32;
+  border-radius: 50%;
+  margin: 4px auto 0;
+}
+
+/* Profile Page - Imagem do Avatar MAIOR */
+.avatar-image {
+  width: 120px;  /* Aumentei de 80 para 120 */
+  height: 120px; /* Aumentei de 80 para 120 */
+  border-radius: 50%;
+  margin: 0 auto 20px; /* Aumentei a margem inferior */
+  overflow: hidden;
+  border: 4px solid #2e7d32; /* Borda um pouco mais grossa */
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Ajuste o header do perfil para acomodar a imagem maior */
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-top: 20px; /* Adicionei um padding no topo */
+}
+
+.profile-header h2 {
+  color: #2e7d32;
+  margin-bottom: 8px;
+  font-size: 1.5rem; /* Texto um pouco maior */
+}
+
+.profile-header p {
+  color: #777;
+  font-size: 1.1rem; /* Texto um pouco maior */
+}
+
+/* Chat Styles */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  margin-bottom: 70px;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #2e7d32;
+  margin-right: 15px;
+  padding: 5px 10px;
+}
+
+.chat-contact {
+  flex: 1;
+}
+
+.chat-contact h3 {
+  color: #2e7d32;
+  margin: 0;
+}
+
+.online-status {
+  color: #4caf50;
+  font-size: 0.8rem;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.contact-message {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  position: relative;
+}
+
+.user-message .message-bubble {
+  background-color: #2e7d32;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.contact-message .message-bubble {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+  border-bottom-left-radius: 4px;
+}
+
+.message-bubble p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.message-time {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 5px;
+  display: block;
+}
+
+.chat-input {
+  display: flex;
+  padding: 15px;
+  background-color: white;
+  border-top: 1px solid #eee;
+  gap: 10px;
+}
+
+.message-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.message-input:focus {
+  border-color: #2e7d32;
+}
+
+.send-button {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.send-button:hover:not(:disabled) {
+  background-color: #1b5e20;
+}
+
+.send-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Melhorar a lista de conexões para parecer clicável */
+.connection-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.connection-item:hover {
+  background-color: #f8f9fa;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0 -10px;
+  border-radius: 8px;
+}
+
+/* Estilo para última mensagem na lista de conexões */
+.last-message {
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Garantir que o chat ocupe toda a altura disponível */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px);
+  margin-bottom: 70px;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
 }
