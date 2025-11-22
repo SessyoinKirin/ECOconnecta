@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface Message {
   text: string;
@@ -15,6 +15,7 @@ interface Connection {
   quote: string;
   time: string;
   messages: Message[];
+  hasUnreadMessage?: boolean;
 }
 
 export default function Connections() {
@@ -23,6 +24,9 @@ export default function Connections() {
   const [user, setUser] = useState<any>(null);
   const [selectedConnection, setSelectedConnection] = useState<Connection | null>(null);
   const [message, setMessage] = useState('');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const [connections, setConnections] = useState<Connection[]>([
     { 
       id: 1, 
@@ -103,6 +107,15 @@ export default function Connections() {
       if (savedChats) {
         setConnections(JSON.parse(savedChats));
       }
+
+      // Carregar configuração de notificações
+      const savedNotifications = localStorage.getItem('notificationsEnabled');
+      if (savedNotifications) {
+        setNotificationsEnabled(JSON.parse(savedNotifications));
+      }
+
+      // Criar elemento de áudio
+      audioRef.current = new Audio('/notification.mp3'); // Coloque seu arquivo mp3 na pasta public
     }
   }, [router]);
 
@@ -113,8 +126,32 @@ export default function Connections() {
     }
   }, [connections]);
 
+  // Salvar configuração de notificações
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled));
+    }
+  }, [notificationsEnabled]);
+
   const handleConnectionClick = (connection: Connection) => {
     setSelectedConnection(connection);
+    // Marcar mensagens como lidas ao abrir o chat
+    setConnections(prevConnections => 
+      prevConnections.map(conn => 
+        conn.id === connection.id 
+          ? { ...conn, hasUnreadMessage: false }
+          : conn
+      )
+    );
+  };
+
+  const playNotificationSound = () => {
+    if (audioRef.current && notificationsEnabled) {
+      audioRef.current.currentTime = 0; // Reiniciar o áudio
+      audioRef.current.play().catch(error => {
+        console.log('Erro ao reproduzir som:', error);
+      });
+    }
   };
 
   const handleSendMessage = () => {
@@ -136,7 +173,8 @@ export default function Connections() {
 
       setMessage('');
 
-      // Simular resposta automática após 1 segundo
+      // Simular resposta automática após 1-3 segundos
+      const randomDelay = Math.floor(Math.random() * 2000) + 1000; // 1-3 segundos
       setTimeout(() => {
         const responses = [
           "Interessante! Podemos marcar uma reunião para discutir isso.",
@@ -158,11 +196,20 @@ export default function Connections() {
         setConnections(prevConnections => 
           prevConnections.map(conn => 
             conn.id === selectedConnection.id 
-              ? { ...conn, messages: [...conn.messages, botMessage] }
+              ? { 
+                  ...conn, 
+                  messages: [...conn.messages, botMessage],
+                  hasUnreadMessage: conn.id !== selectedConnection.id // Marcar como não lida se não for a conversa atual
+                }
               : conn
           )
         );
-      }, 1000);
+
+        // Tocar som de notificação se estiver ativado
+        if (selectedConnection) {
+          playNotificationSound();
+        }
+      }, randomDelay);
     }
   };
 
@@ -172,10 +219,17 @@ export default function Connections() {
     }
   };
 
+  const toggleNotifications = () => {
+    setNotificationsEnabled(!notificationsEnabled);
+  };
+
   // Obter as mensagens da conexão selecionada
   const currentMessages = selectedConnection 
     ? connections.find(conn => conn.id === selectedConnection.id)?.messages || []
     : [];
+
+  // Contar conexões com mensagens não lidas
+  const unreadCount = connections.filter(conn => conn.hasUnreadMessage).length;
 
   if (!user) {
     return (
@@ -189,7 +243,25 @@ export default function Connections() {
 
   return (
     <div className="page connections-page">
-      <h1>Conexões</h1>
+      <div className="connections-header">
+        <h1>Conexões {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}</h1>
+        
+        {/* Caixinha de seleção de notificações */}
+        <div className="notification-toggle">
+          <label className="toggle-label">
+            <input
+              type="checkbox"
+              checked={notificationsEnabled}
+              onChange={toggleNotifications}
+              className="toggle-input"
+            />
+            <span className="toggle-slider"></span>
+            <span className="toggle-text">
+              {notificationsEnabled ? 'Notificações Ativas' : 'Notificações Desativadas'}
+            </span>
+          </label>
+        </div>
+      </div>
       
       {selectedConnection ? (
         <div className="chat-container">
@@ -243,7 +315,7 @@ export default function Connections() {
           {connections.map((connection) => (
             <div 
               key={connection.id} 
-              className="connection-item"
+              className={`connection-item ${connection.hasUnreadMessage ? 'unread' : ''}`}
               onClick={() => handleConnectionClick(connection)}
             >
               <div className="connection-info">
@@ -253,7 +325,10 @@ export default function Connections() {
                   {connection.messages[connection.messages.length - 1]?.text.slice(0, 30)}...
                 </span>
               </div>
-              <div className="connection-time">{connection.time}</div>
+              <div className="connection-time">
+                {connection.time}
+                {connection.hasUnreadMessage && <span className="unread-dot"></span>}
+              </div>
             </div>
           ))}
         </div>

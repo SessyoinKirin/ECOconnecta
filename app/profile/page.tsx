@@ -2,7 +2,7 @@
  * @Author: SessyoinKirin
  * @Date: 2025-11-19 23:22:48
  * @LastEditors: SessyoinKirin
- * @LastEditTime: 2025-11-20 01:03:11
+ * @LastEditTime: 2025-11-21 22:23:58
  * @FilePath: \my-app\app\profile\page.tsx
  * @Description: 
  * 
@@ -51,7 +51,7 @@ export default function Profile() {
         {/* Substitua o avatar por uma imagem local */}
         <div className="avatar-image">
           <Image 
-            src="/capivara.png" // Caminho da imagem na pasta public
+            src="/kobe.jpeg" // Caminho da imagem na pasta public
             alt="Avatar do usuário"
             width={120}
             height={120}
